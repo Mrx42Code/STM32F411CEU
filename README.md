@@ -1,3 +1,3 @@
 
-# STM32F411CEU Code and Library.
+# STM32F411CEU
 
