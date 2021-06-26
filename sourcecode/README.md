@@ -1,1 +1,1 @@
-# STM32F411CEU (Source Code)
+# STM32F411CEU (Source Code and Library)
