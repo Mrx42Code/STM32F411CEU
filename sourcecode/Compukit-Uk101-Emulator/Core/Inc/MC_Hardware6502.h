@@ -37,7 +37,7 @@
 //-----------------------------------------------------------------------------
 // Const
 //-----------------------------------------------------------------------------
-#define CompukitUK101						false
+#define CompukitUK101						true
 #define CompukitUK101_DebugKeypress			false
 
 #define BreakPointMemory                    true

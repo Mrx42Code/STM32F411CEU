@@ -2,7 +2,7 @@
 * MIT License																	  *
 *																				  *
 * Copyright(c) 2021 Mrx42Code                                                     *
-* https://github.com/Mrx42Code                           				          *
+* https://github.com/Mrx42Code                          				          *
 *																				  *
 * Permission is hereby granted, free of charge, to any person obtaining a copy    *
 * of this softwareand associated documentation files(the "Software"), to deal	  *
@@ -23,56 +23,52 @@
 * SOFTWARE.																		  *
  **********************************************************************************/
 
-#include "AppMain.h"
-#include "main.h"
-#include "iwdg.h"
+ //-----------------------------------------------------------------------------
+ // File: MC_FileSystem6502.h: interface for the MC_FileSystem6502 class.
+ // Desc: Application interface for the MC_FileSystem6502 class.
+ //-----------------------------------------------------------------------------
+#ifndef MC_FileSystem6502_H
+    #define MC_FileSystem6502_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#pragma once
 
-#include "MC_Hardware6502.h"
+#include "IncludeLibraries.h"
 
-extern MC_Hardware6502 mc_Hardware6502;
 //-----------------------------------------------------------------------------
-// Name: AppMainInit()
+// Const
 //-----------------------------------------------------------------------------
-void AppMainInit()
+
+//-----------------------------------------------------------------------------
+// Struct
+//-----------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------
+// Name: class MC_FileSystem6502
+// Desc: Application class
+//-----------------------------------------------------------------------------
+class MC_FileSystem6502
 {
 
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainSetup()
-//-----------------------------------------------------------------------------
-void AppMainSetup()
-{
-	HAL_Delay(5000);
-	HAL_GPIO_WritePin(PCB_LED_GPIO_Port, PCB_LED_Pin, GPIO_PIN_SET);
+    public:
 
-    mc_Hardware6502.Initialize();
-    mc_Hardware6502.Create();
-    mc_Hardware6502.CpuSetParameters();
+    protected:
 
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainLoop()
-//-----------------------------------------------------------------------------
-void AppMainLoop()
-{
-	if(!mc_Hardware6502.m_Quit) {
-		mc_Hardware6502.CpuMainLoop();
-	}
-	HAL_IWDG_Refresh(&hiwdg);
+    private:
 
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainUSBCallBackRx(uint8_t* Buf, uint32_t *Len)
-//-----------------------------------------------------------------------------
-void AppMainUSBCallBackRx(uint8_t* Buf, uint32_t *Len)
-{
-	if(*Len > 0 ) {
-		mc_Hardware6502.m_VideoRamCrc = 0;
-		mc_Hardware6502.m_KbChar = Buf[0];
-	}
-}
+        //-----------------------------------------------------------------------------
 
+    public:
+							MC_FileSystem6502();
+        virtual				~MC_FileSystem6502();
+        void				LoadFiles();
+        void 				MemoryLoadfromFlash(const char* FileName[] ,uint16_t FileItems ,uint16_t address ,uint16_t MemSize);
+        uint32_t 			Crc32(const uint8_t* buf, uint32_t buflen);
+
+    protected:
+        uint16_t 			Hex2Dec(std::string s);
+
+    private:
+
+};
+//-----------------------------------------------------------------------------
+#endif // MC_FileSystem6502_H

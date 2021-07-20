@@ -23,56 +23,23 @@
 * SOFTWARE.																		  *
  **********************************************************************************/
 
-#include "AppMain.h"
-#include "main.h"
-#include "iwdg.h"
+#ifndef INC_APPMAIN_H_
+	#define INC_APPMAIN_H_
 
-#include <stdio.h>
-#include <stdlib.h>
+#ifdef __cplusplus
+	extern "C" {
+#endif
+
 #include <stdbool.h>
+#include "stm32f411xe.h"
 
-#include "MC_Hardware6502.h"
+void AppMainInit();
+void AppMainSetup();
+void AppMainLoop();
+void AppMainUSBCallBackRx(uint8_t* Buf, uint32_t *Len);
 
-extern MC_Hardware6502 mc_Hardware6502;
-//-----------------------------------------------------------------------------
-// Name: AppMainInit()
-//-----------------------------------------------------------------------------
-void AppMainInit()
-{
-
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainSetup()
-//-----------------------------------------------------------------------------
-void AppMainSetup()
-{
-	HAL_Delay(5000);
-	HAL_GPIO_WritePin(PCB_LED_GPIO_Port, PCB_LED_Pin, GPIO_PIN_SET);
-
-    mc_Hardware6502.Initialize();
-    mc_Hardware6502.Create();
-    mc_Hardware6502.CpuSetParameters();
-
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainLoop()
-//-----------------------------------------------------------------------------
-void AppMainLoop()
-{
-	if(!mc_Hardware6502.m_Quit) {
-		mc_Hardware6502.CpuMainLoop();
+#ifdef __cplusplus
 	}
-	HAL_IWDG_Refresh(&hiwdg);
+#endif
 
-}
-//-----------------------------------------------------------------------------
-// Name: AppMainUSBCallBackRx(uint8_t* Buf, uint32_t *Len)
-//-----------------------------------------------------------------------------
-void AppMainUSBCallBackRx(uint8_t* Buf, uint32_t *Len)
-{
-	if(*Len > 0 ) {
-		mc_Hardware6502.m_VideoRamCrc = 0;
-		mc_Hardware6502.m_KbChar = Buf[0];
-	}
-}
-
+#endif /* INC_APPMAIN_H_ */
